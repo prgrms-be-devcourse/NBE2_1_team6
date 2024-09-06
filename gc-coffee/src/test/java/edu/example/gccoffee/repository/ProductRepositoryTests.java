@@ -37,7 +37,7 @@ public class ProductRepositoryTests {
 
         //THEN
         assertNotNull(savedProduct);
-        assertEquals(2, savedProduct.getProductId());
+        assertEquals(1, savedProduct.getProductId());
         assertEquals("상품1", savedProduct.getProductName());
         assertEquals("COFFEE_BEAN_PACKAGE", savedProduct.getCategory());
         assertEquals(3000, savedProduct.getPrice());
@@ -66,7 +66,7 @@ public class ProductRepositoryTests {
     @Test
     public void testDelete() {
         //GIVEN
-        Long productId = 2L;
+        Long productId = 1L;
 
         //WHEN
         assertTrue(productRepository.existsById(productId));
