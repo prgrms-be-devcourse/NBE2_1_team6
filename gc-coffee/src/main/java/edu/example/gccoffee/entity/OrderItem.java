@@ -1,14 +1,12 @@
 package edu.example.gccoffee.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name= "order_items")
 @Getter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -29,7 +27,10 @@ public class OrderItem {
 
     private int price;
 
-    private String category;
+    @Enumerated(value = EnumType.STRING)
+//    private Category category;
 
-
+    public void changeQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 }
