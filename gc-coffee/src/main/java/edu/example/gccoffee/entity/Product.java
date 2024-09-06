@@ -1,4 +1,4 @@
-package edu.example.gccoffee.Entity;
+package edu.example.gccoffee.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -29,10 +29,6 @@ public class Product {
 
     public void changeProductName(String productName) {
         this.productName = productName;
-    }
-
-    public void changeCategory(Category category) {
-        this.category = category;
     }
 
     public void changePrice(int price) {
