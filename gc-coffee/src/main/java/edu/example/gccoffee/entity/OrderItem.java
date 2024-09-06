@@ -14,8 +14,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class OrderItem {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long OrderItemId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long orderItemId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
@@ -30,4 +30,6 @@ public class OrderItem {
     private int price;
 
     private String category;
+
+
 }
