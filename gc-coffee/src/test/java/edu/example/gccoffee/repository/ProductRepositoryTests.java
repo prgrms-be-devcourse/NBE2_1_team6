@@ -7,8 +7,15 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Random;
+import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,17 +37,36 @@ public class ProductRepositoryTests {
 
         //THEN
         assertNotNull(savedProduct);
-        assertEquals(1, savedProduct.getProductId());
+        assertEquals(2, savedProduct.getProductId());
         assertEquals("상품1", savedProduct.getProductName());
         assertEquals("COFFEE_BEAN_PACKAGE", savedProduct.getCategory());
         assertEquals(3000, savedProduct.getPrice());
         assertEquals("상품 추가 테스트", savedProduct.getDescription());
+
+        log.info(savedProduct);
+    }
+
+    @Test
+    public void testInsertTen() {
+        IntStream.rangeClosed(1,10).forEach(i -> {
+            //GIVEN
+            Product product = Product.builder().productName("상품" + i).category(Category.COFFEE_BEAN_PACKAGE.name()).price(new Random().nextInt(1, 5) * 1000).description("상품" + i + " 추가").build();
+
+            //WHEN
+            Product savedProduct = productRepository.save(product);
+
+            //THEN
+            assertNotNull(savedProduct);
+
+            log.info(savedProduct);
+        });
+        assertEquals(10, productRepository.count());
     }
 
     @Test
     public void testDelete() {
         //GIVEN
-        Long productId = 1L;
+        Long productId = 2L;
 
         //WHEN
         assertTrue(productRepository.existsById(productId));
@@ -48,5 +74,24 @@ public class ProductRepositoryTests {
 
         //THEN
         assertFalse(productRepository.existsById(productId));
+    }
+
+    @Test
+    public void testReadAll() {
+        //GIVEN
+        Pageable pageable = PageRequest.of(0, 5, Sort.by("productId").descending());
+
+        //WHEN
+        Page<Product> productPage = productRepository.findAll(pageable);
+
+        //THEN
+        assertNotNull(productPage);
+        assertEquals(10, productPage.getTotalElements());
+        assertEquals(2, productPage.getTotalPages());
+        assertEquals(0, productPage.getNumber());
+        assertEquals(5, productPage.getSize());
+        assertEquals(5, productPage.getContent().size());
+
+        productPage.forEach(System.out::println);
     }
 }
