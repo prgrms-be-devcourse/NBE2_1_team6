@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name= "order")
+@Table(name= "orders")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,7 +20,7 @@ import java.util.List;
 @EntityListeners(AuditingEntityListener.class)
 public class Order {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
 
     private String email;
@@ -36,4 +36,6 @@ public class Order {
 
     @CreatedDate
     private LocalDateTime createAt;
+
+
 }
