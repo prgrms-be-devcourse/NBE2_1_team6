@@ -19,7 +19,7 @@ public class Product {
     private String productName;
 
     @Column(nullable = false)
-    private Category category;
+    private String category;
 
     @Column(nullable = false)
     private int price;
@@ -30,7 +30,7 @@ public class Product {
         this.productName = productName;
     }
 
-    public void changeCategory(Category category) {this.category = category;}
+    public void changeCategory(String category) {this.category = category;}
 
     public void changePrice(int price) {
         this.price = price;
