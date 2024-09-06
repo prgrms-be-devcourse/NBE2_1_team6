@@ -31,5 +31,7 @@ public class OrderItem {
 
     private String category;
 
-
+    public void changeQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 }

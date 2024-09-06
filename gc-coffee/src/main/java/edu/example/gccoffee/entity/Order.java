@@ -32,10 +32,20 @@ public class Order {
     @OneToMany(mappedBy = "order")
     private List<OrderItem> orderItem;
 
-    private String orderStatus;
+    private OrderStatus orderStatus;
 
     @CreatedDate
     private LocalDateTime createAt;
 
+    public void changeAddress(String address) {
+        this.address = address;
+    }
 
+    public void changePostCode(int postCode) {
+        this.postCode = postCode;
+    }
+
+    public void changeEmail(String email) {
+        this.email = email;
+    }
 }
