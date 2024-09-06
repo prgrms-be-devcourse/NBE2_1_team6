@@ -7,8 +7,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -48,5 +51,34 @@ public class ProductRepositoryTests {
 
         //THEN
         assertFalse(productRepository.existsById(productId));
+    }
+
+    @Test
+    @Transactional
+    @Commit
+    public void testUpdate() {
+
+        Long productId = 2L;
+        String productName = "Columbia Coffee";
+        String category = "COFFEE_BEAN_PACKAGE";
+        int price = 3000;
+        String description = "Best Seller";
+
+        Optional<Product> foundProduct = productRepository.findById(productId);
+        assertTrue(foundProduct.isPresent(), "Product should be present");
+
+        Product product = foundProduct.get();
+        product.changeProductName(productName);
+        product.changeCategory(category);
+        product.changePrice(price);
+        product.changeDescription(description);
+
+        productRepository.save(product);
+
+        foundProduct = productRepository.findById(productId);
+        assertEquals(productName, foundProduct.get().getProductName());
+        assertEquals(category, foundProduct.get().getCategory());
+        assertEquals(price, foundProduct.get().getPrice());
+        assertEquals(description, foundProduct.get().getDescription());
     }
 }
