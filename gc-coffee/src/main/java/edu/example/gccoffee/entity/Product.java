@@ -30,6 +30,8 @@ public class Product {
         this.productName = productName;
     }
 
+    public void changeCategory(String category) {this.category = category;}
+
     public void changePrice(int price) {
         this.price = price;
     }
