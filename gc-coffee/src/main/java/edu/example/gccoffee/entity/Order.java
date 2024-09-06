@@ -1,10 +1,7 @@
 package edu.example.gccoffee.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -17,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString
 @EntityListeners(AuditingEntityListener.class)
 public class Order {
     @Id
@@ -29,9 +27,10 @@ public class Order {
 
     private int postCode;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
     private List<OrderItem> orderItem;
 
+    @Enumerated(value = EnumType.STRING)
     private OrderStatus orderStatus;
 
     @CreatedDate
