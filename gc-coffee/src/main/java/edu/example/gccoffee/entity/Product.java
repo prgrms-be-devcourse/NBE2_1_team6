@@ -19,7 +19,7 @@ public class Product {
     private String productName;
 
     @Column(nullable = false)
-    private String category;
+    private Category category;
 
     @Column(nullable = false)
     private int price;
@@ -29,6 +29,8 @@ public class Product {
     public void changeProductName(String productName) {
         this.productName = productName;
     }
+
+    public void changeCategory(Category category) {this.category = category;}
 
     public void changePrice(int price) {
         this.price = price;
