@@ -19,7 +19,8 @@ public class Product {
     private String productName;
 
     @Column(nullable = false)
-    private String category;
+    @Enumerated(value = EnumType.STRING)
+    private Category category;
 
     @Column(nullable = false)
     private int price;
@@ -29,8 +30,6 @@ public class Product {
     public void changeProductName(String productName) {
         this.productName = productName;
     }
-
-    public void changeCategory(String category) {this.category = category;}
 
     public void changePrice(int price) {
         this.price = price;

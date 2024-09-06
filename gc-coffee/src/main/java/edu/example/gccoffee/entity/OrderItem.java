@@ -28,7 +28,7 @@ public class OrderItem {
     private int price;
 
     @Enumerated(value = EnumType.STRING)
-//    private Category category;
+    private Category category;
 
     public void changeQuantity(int quantity) {
         this.quantity = quantity;

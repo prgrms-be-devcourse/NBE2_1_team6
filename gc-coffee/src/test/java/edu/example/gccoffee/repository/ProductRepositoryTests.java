@@ -30,7 +30,7 @@ public class ProductRepositoryTests {
     @Test
     public void testInsert() {
         //GIVEN
-        Product product = Product.builder().productName("상품1").category(Category.COFFEE_BEAN_PACKAGE.name()).price(3000).description("상품 추가 테스트").build();
+        Product product = Product.builder().productName("상품1").category(Category.COFFEE_BEAN_PACKAGE).price(3000).description("상품 추가 테스트").build();
 
         //WHEN
         Product savedProduct = productRepository.save(product);
@@ -39,7 +39,7 @@ public class ProductRepositoryTests {
         assertNotNull(savedProduct);
         assertEquals(1, savedProduct.getProductId());
         assertEquals("상품1", savedProduct.getProductName());
-        assertEquals("COFFEE_BEAN_PACKAGE", savedProduct.getCategory());
+        assertEquals(Category.COFFEE_BEAN_PACKAGE, savedProduct.getCategory());
         assertEquals(3000, savedProduct.getPrice());
         assertEquals("상품 추가 테스트", savedProduct.getDescription());
 
@@ -50,7 +50,7 @@ public class ProductRepositoryTests {
     public void testInsertTen() {
         IntStream.rangeClosed(1,10).forEach(i -> {
             //GIVEN
-            Product product = Product.builder().productName("상품" + i).category(Category.COFFEE_BEAN_PACKAGE.name()).price(new Random().nextInt(1, 5) * 1000).description("상품" + i + " 추가").build();
+            Product product = Product.builder().productName("상품" + i).category(Category.COFFEE_BEAN_PACKAGE).price(new Random().nextInt(1, 5) * 1000).description("상품" + i + " 추가").build();
 
             //WHEN
             Product savedProduct = productRepository.save(product);
