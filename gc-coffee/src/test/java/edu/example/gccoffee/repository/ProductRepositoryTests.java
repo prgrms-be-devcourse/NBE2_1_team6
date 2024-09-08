@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -44,21 +43,21 @@ public class ProductRepositoryTests {
     @Test
     @DisplayName("업데이트 테스트")
     public void testUpdate() {
-        Long productId = 2L;
+        Long productId = 3L;
 
         Optional<Product> foundProduct = productRepository.findById(productId);
         assertTrue(foundProduct.isPresent(), "Product should be present");
 
         Product product = foundProduct.get();
-        product.changeProductName("제품명 재업데이트");
+        product.changeProductName("제품명 업데이트");
         product.changePrice(100000);
-        product.changeDescription("제품 설명 재업데이트");
+        product.changeDescription("제품 설명 업데이트");
 
         productRepository.save(product);
 
-        assertThat(product.getProductName()).isEqualTo("제품명 재업데이트");
-        assertThat(product.getPrice()).isEqualTo(100000);
-        assertThat(product.getDescription()).isEqualTo("제품 설명 재업데이트");
+        assertEquals("제품명 업데이트", product.getProductName(), "제품명 일치하지 않음");
+        assertEquals(100000, product.getPrice(), "가격 일치하지 않음");
+        assertEquals("제품 설명 업데이트", product.getDescription(), "제품 설명 일치하지 않음");
     }
 
     @Test
