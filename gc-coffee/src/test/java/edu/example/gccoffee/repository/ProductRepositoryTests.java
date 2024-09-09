@@ -15,9 +15,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 import java.util.Random;
 import java.util.stream.IntStream;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -50,7 +50,7 @@ public class ProductRepositoryTests {
 
     @Test
     public void testInsertTen() {
-        IntStream.rangeClosed(1,10).forEach(i -> {
+        IntStream.rangeClosed(1, 10).forEach(i -> {
             //GIVEN
             Product product = Product.builder().productName("상품" + i).category(Category.COFFEE_BEAN_PACKAGE).price(new Random().nextInt(1, 5) * 1000).description("상품" + i + " 추가").build();
 
