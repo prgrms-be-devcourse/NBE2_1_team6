@@ -18,7 +18,7 @@ public class ProductDTO {
     @NotEmpty
     private String productName;
     @NotEmpty
-    private Category category;
+    private String category;
     @Min(0)
     private int price;
     private String description;
@@ -26,12 +26,12 @@ public class ProductDTO {
     public ProductDTO(Product product) {
         this.productId = product.getProductId();
         this.productName = product.getProductName();
-        this.category = product.getCategory();
+        this.category = product.getCategory().name();
         this.price = product.getPrice();
         this.description = product.getDescription();
     }
 
     public Product toEntity() {
-        return Product.builder().productId(productId).productName(productName).description(description).category(category).price(price).build();
+        return Product.builder().productId(productId).productName(productName).description(description).category(Category.valueOf(category)).price(price).build();
     }
 }
