@@ -2,6 +2,7 @@ package edu.example.gccoffee.service;
 
 import edu.example.gccoffee.dto.PageRequestDTO;
 import edu.example.gccoffee.dto.ProductDTO;
+import edu.example.gccoffee.entity.Category;
 import edu.example.gccoffee.entity.Product;
 import edu.example.gccoffee.exception.ProductException;
 import edu.example.gccoffee.repository.ProductRepository;
@@ -33,7 +34,7 @@ public class ProductService {
             return new ProductDTO(product);
         } catch (Exception e) {
             log.error(e.getMessage());
-            throw ProductException.PRODUCT_NOT_FOUND.getProductTaskException();
+            throw ProductException.PRODUCT_NOT_REGISTERED.getProductTaskException();
         }
     }
 
@@ -44,6 +45,7 @@ public class ProductService {
 
         try {
             product.changeProductName(productDTO.getProductName());
+            product.changeCategory(Category.valueOf(productDTO.getCategory()));
             product.changePrice(productDTO.getPrice());
             product.changeDescription(productDTO.getDescription());
             return new ProductDTO(product);
@@ -68,7 +70,7 @@ public class ProductService {
     // 페이지 별 조회
     public Page<ProductDTO> getPage(PageRequestDTO pageRequestDTO) {
         try {
-            Sort sort = Sort.by("productName").descending();
+            Sort sort = Sort.by("productId").descending();
             Pageable pageable = pageRequestDTO.toPageable(sort);
             return productRepository.getPage(pageable);
         } catch (Exception e) {
