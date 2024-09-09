@@ -26,6 +26,6 @@ public class OrderController {
         log.info("--- OrderDTO: " + orderDTO);
 
 
-        return ResponseEntity.ok(orderService.add(orderDTO));
+        return null;
     }
 }
