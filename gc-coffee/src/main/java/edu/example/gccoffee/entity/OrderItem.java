@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name= "order_items")
+@Table(name = "order_items")
 @Getter
 @ToString
 @NoArgsConstructor
@@ -33,4 +33,6 @@ public class OrderItem {
     public void changeQuantity(int quantity) {
         this.quantity = quantity;
     }
+
+    // 추가적인 메서드들
 }
