@@ -20,17 +20,17 @@ import java.util.Map;
 public class ProductController {
     private final ProductService productService;
 
-    @GetMapping
+    @GetMapping("/lists")
     public ResponseEntity<List<ProductDTO>> getList() {
         return ResponseEntity.ok(productService.getList());
     }
 
-    @GetMapping("/list")
+    @GetMapping("/pages")
     public ResponseEntity<Page<ProductDTO>> getPage(@Validated PageRequestDTO pageRequestDTO) {
         return ResponseEntity.ok(productService.getPage(pageRequestDTO));
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<ProductDTO> create(@Validated @RequestBody ProductDTO productDTO) {
         return ResponseEntity.ok(productService.create(productDTO));
     }
