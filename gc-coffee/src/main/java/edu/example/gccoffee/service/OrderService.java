@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,8 +23,7 @@ import java.util.Optional;
 public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
-
-    public void create(OrderDTO orderDTO) {   //등록
+    public void add(OrderDTO orderDTO){   //등록
         orderRepository.save(orderDTO.toEntity());
         List<OrderItem> orderItems = orderDTO.getOrderItem();
         for (OrderItem orderItem : orderItems) {
