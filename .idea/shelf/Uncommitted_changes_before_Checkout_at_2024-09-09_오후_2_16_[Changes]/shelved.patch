@@ -1,0 +1,205 @@
+Index: gc-coffee/src/test/java/edu/example/gccoffee/repository/ProductRepositoryTests.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package edu.example.gccoffee.repository;\r\n\r\nimport edu.example.gccoffee.entity.Category;\r\nimport edu.example.gccoffee.entity.Product;\r\nimport lombok.extern.log4j.Log4j2;\r\nimport org.junit.jupiter.api.DisplayName;\r\nimport org.junit.jupiter.api.MethodOrderer;\r\nimport org.junit.jupiter.api.Test;\r\nimport org.junit.jupiter.api.TestMethodOrder;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;\r\nimport org.springframework.boot.test.context.SpringBootTest;\r\nimport org.springframework.data.domain.Page;\r\nimport org.springframework.data.domain.PageRequest;\r\nimport org.springframework.data.domain.Pageable;\r\nimport org.springframework.data.domain.Sort;\r\nimport org.springframework.transaction.annotation.Propagation;\r\nimport org.springframework.transaction.annotation.Transactional;\r\n\r\nimport java.util.Optional;\r\nimport java.util.Random;\r\nimport java.util.stream.IntStream;\r\n\r\nimport static org.junit.jupiter.api.Assertions.*;\r\n\r\n@SpringBootTest\r\n@Log4j2\r\n@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)\r\n@Transactional(propagation = Propagation.NOT_SUPPORTED)\r\n@TestMethodOrder(MethodOrderer.OrderAnnotation.class)\r\npublic class ProductRepositoryTests {\r\n    @Autowired\r\n    private ProductRepository productRepository;\r\n\r\n    @Test\r\n    @org.junit.jupiter.api.Order(1)\r\n    public void testInsert() {\r\n        //GIVEN\r\n        Product product = Product.builder().productName(\"상품1\").category(Category.COFFEE_BEAN_PACKAGE).price(3000).description(\"상품 추가 테스트\").build();\r\n\r\n        //WHEN\r\n        Product savedProduct = productRepository.save(product);\r\n\r\n        //THEN\r\n        assertNotNull(savedProduct);\r\n        assertEquals(1, savedProduct.getProductId());\r\n        assertEquals(\"상품1\", savedProduct.getProductName());\r\n        assertEquals(Category.COFFEE_BEAN_PACKAGE, savedProduct.getCategory());\r\n        assertEquals(3000, savedProduct.getPrice());\r\n        assertEquals(\"상품 추가 테스트\", savedProduct.getDescription());\r\n\r\n        log.info(savedProduct);\r\n    }\r\n\r\n    @Test\r\n    @org.junit.jupiter.api.Order(2)\r\n    public void testInsertTen() {\r\n        IntStream.rangeClosed(1, 10).forEach(i -> {\r\n            //GIVEN\r\n            Product product = Product.builder().productName(\"상품\" + i).category(Category.COFFEE_BEAN_PACKAGE).price(new Random().nextInt(1, 5) * 1000).description(\"상품\" + i + \" 추가\").build();\r\n\r\n            //WHEN\r\n            Product savedProduct = productRepository.save(product);\r\n\r\n            //THEN\r\n            assertNotNull(savedProduct);\r\n\r\n            log.info(savedProduct);\r\n        });\r\n        assertEquals(10, productRepository.count());\r\n    }\r\n\r\n    @Test\r\n    @org.junit.jupiter.api.Order(3)\r\n    @DisplayName(\"업데이트 테스트\")\r\n    public void testUpdate() {\r\n        Long productId = 3L;\r\n\r\n        Optional<Product> foundProduct = productRepository.findById(productId);\r\n        assertTrue(foundProduct.isPresent(), \"Product should be present\");\r\n\r\n        Product product = foundProduct.get();\r\n        product.changeProductName(\"제품명 업데이트\");\r\n        product.changePrice(100000);\r\n        product.changeDescription(\"제품 설명 업데이트\");\r\n\r\n        productRepository.save(product);\r\n\r\n        assertEquals(\"제품명 업데이트\", product.getProductName(), \"제품명 일치하지 않음\");\r\n        assertEquals(100000, product.getPrice(), \"가격 일치하지 않음\");\r\n        assertEquals(\"제품 설명 업데이트\", product.getDescription(), \"제품 설명 일치하지 않음\");\r\n    }\r\n\r\n    @Test\r\n    @org.junit.jupiter.api.Order(4)\r\n    public void testDelete() {\r\n        //GIVEN\r\n        Long productId = 1L;\r\n\r\n        //WHEN\r\n        assertTrue(productRepository.existsById(productId));\r\n        productRepository.deleteById(productId);\r\n\r\n        //THEN\r\n        assertFalse(productRepository.existsById(productId));\r\n    }\r\n\r\n    @Test\r\n    @org.junit.jupiter.api.Order(5)\r\n    @DisplayName(\"읽어오기 테스트\")\r\n    public void testRead() {\r\n        Long productId = 2L;\r\n\r\n        Optional<Product> foundProduct = productRepository.findById(productId);\r\n        assertTrue(foundProduct.isPresent(), \"Product should be present\");\r\n\r\n        Product product = foundProduct.get();\r\n        assertNotNull(product);\r\n        assertEquals(2, product.getProductId());\r\n        assertEquals(100000, product.getPrice());\r\n        assertEquals(\"제품명 재업데이트\", product.getProductName());\r\n        assertEquals(\"제품 설명 재업데이트\", product.getDescription());\r\n    }\r\n\r\n    @Test\r\n    @org.junit.jupiter.api.Order(6)\r\n    public void testReadAll() {\r\n        //GIVEN\r\n        Pageable pageable = PageRequest.of(0, 5, Sort.by(\"productId\").descending());\r\n\r\n        //WHEN\r\n        Page<Product> productPage = productRepository.findAll(pageable);\r\n\r\n        //THEN\r\n        assertNotNull(productPage);\r\n        assertEquals(10, productPage.getTotalElements());\r\n        assertEquals(2, productPage.getTotalPages());\r\n        assertEquals(0, productPage.getNumber());\r\n        assertEquals(5, productPage.getSize());\r\n        assertEquals(5, productPage.getContent().size());\r\n\r\n        productPage.forEach(System.out::println);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/gc-coffee/src/test/java/edu/example/gccoffee/repository/ProductRepositoryTests.java b/gc-coffee/src/test/java/edu/example/gccoffee/repository/ProductRepositoryTests.java
+--- a/gc-coffee/src/test/java/edu/example/gccoffee/repository/ProductRepositoryTests.java	(revision b263665289e36fbbefd01c33d5ecca918dd2ec04)
++++ b/gc-coffee/src/test/java/edu/example/gccoffee/repository/ProductRepositoryTests.java	(date 1725851989471)
+@@ -31,29 +31,29 @@
+ public class ProductRepositoryTests {
+     @Autowired
+     private ProductRepository productRepository;
++//
++//    @Test
++//    @org.junit.jupiter.api.Order(1)
++//    public void testInsert() {
++//        //GIVEN
++//        Product product = Product.builder().productName("상품1").category(Category.COFFEE_BEAN_PACKAGE).price(3000).description("상품 추가 테스트").build();
++//
++//        //WHEN
++//        Product savedProduct = productRepository.save(product);
++//
++//        //THEN
++//        assertNotNull(savedProduct);
++//        assertEquals(1, savedProduct.getProductId());
++//        assertEquals("상품1", savedProduct.getProductName());
++//        assertEquals(Category.COFFEE_BEAN_PACKAGE, savedProduct.getCategory());
++//        assertEquals(3000, savedProduct.getPrice());
++//        assertEquals("상품 추가 테스트", savedProduct.getDescription());
++//
++//        log.info(savedProduct);
++//    }
+ 
+     @Test
+-    @org.junit.jupiter.api.Order(1)
+-    public void testInsert() {
+-        //GIVEN
+-        Product product = Product.builder().productName("상품1").category(Category.COFFEE_BEAN_PACKAGE).price(3000).description("상품 추가 테스트").build();
+-
+-        //WHEN
+-        Product savedProduct = productRepository.save(product);
+-
+-        //THEN
+-        assertNotNull(savedProduct);
+-        assertEquals(1, savedProduct.getProductId());
+-        assertEquals("상품1", savedProduct.getProductName());
+-        assertEquals(Category.COFFEE_BEAN_PACKAGE, savedProduct.getCategory());
+-        assertEquals(3000, savedProduct.getPrice());
+-        assertEquals("상품 추가 테스트", savedProduct.getDescription());
+-
+-        log.info(savedProduct);
+-    }
+-
+-    @Test
+-    @org.junit.jupiter.api.Order(2)
++//    @org.junit.jupiter.api.Order(2)
+     public void testInsertTen() {
+         IntStream.rangeClosed(1, 10).forEach(i -> {
+             //GIVEN
+Index: gc-coffee/src/main/java/edu/example/gccoffee/repository/OrderRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package edu.example.gccoffee.repository;\r\n\r\n\r\nimport edu.example.gccoffee.entity.Order;\r\nimport edu.example.gccoffee.entity.Product;\r\nimport edu.example.gccoffee.repository.search.OrderSearch;\r\nimport org.springframework.data.jpa.repository.JpaRepository;\r\nimport org.springframework.data.jpa.repository.Query;\r\nimport org.springframework.stereotype.Repository;\r\n\r\n@Repository\r\npublic interface OrderRepository extends JpaRepository<Order, Long>, OrderSearch {\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/gc-coffee/src/main/java/edu/example/gccoffee/repository/OrderRepository.java b/gc-coffee/src/main/java/edu/example/gccoffee/repository/OrderRepository.java
+--- a/gc-coffee/src/main/java/edu/example/gccoffee/repository/OrderRepository.java	(revision b263665289e36fbbefd01c33d5ecca918dd2ec04)
++++ b/gc-coffee/src/main/java/edu/example/gccoffee/repository/OrderRepository.java	(date 1725858842385)
+@@ -6,8 +6,11 @@
+ import edu.example.gccoffee.repository.search.OrderSearch;
+ import org.springframework.data.jpa.repository.JpaRepository;
+ import org.springframework.data.jpa.repository.Query;
++import org.springframework.data.repository.query.Param;
+ import org.springframework.stereotype.Repository;
+ 
++import java.util.Optional;
++
+ @Repository
+ public interface OrderRepository extends JpaRepository<Order, Long>, OrderSearch {
+ 
+Index: gc-coffee/src/main/java/edu/example/gccoffee/entity/Order.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package edu.example.gccoffee.entity;\r\n\r\nimport jakarta.persistence.*;\r\nimport lombok.*;\r\nimport org.springframework.data.annotation.CreatedDate;\r\nimport org.springframework.data.jpa.domain.support.AuditingEntityListener;\r\n\r\nimport java.time.LocalDateTime;\r\nimport java.util.List;\r\n\r\n@Entity\r\n@Table(name= \"orders\")\r\n@Getter\r\n@NoArgsConstructor\r\n@AllArgsConstructor\r\n@Builder\r\n@ToString\r\n@EntityListeners(AuditingEntityListener.class)\r\npublic class Order {\r\n    @Id\r\n    @GeneratedValue(strategy = GenerationType.IDENTITY)\r\n    private Long orderId;\r\n\r\n    private String email;\r\n\r\n    private String address;\r\n\r\n    private int postCode;\r\n\r\n    @OneToMany(mappedBy = \"order\", fetch = FetchType.EAGER)\r\n    private List<OrderItem> orderItem;\r\n\r\n    @Enumerated(value = EnumType.STRING)\r\n    private OrderStatus orderStatus;\r\n\r\n    @CreatedDate\r\n    private LocalDateTime createAt;\r\n\r\n    public void changeAddress(String address) {\r\n        this.address = address;\r\n    }\r\n\r\n    public void changePostCode(int postCode) {\r\n        this.postCode = postCode;\r\n    }\r\n\r\n    public void changeEmail(String email) {\r\n        this.email = email;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/gc-coffee/src/main/java/edu/example/gccoffee/entity/Order.java b/gc-coffee/src/main/java/edu/example/gccoffee/entity/Order.java
+--- a/gc-coffee/src/main/java/edu/example/gccoffee/entity/Order.java	(revision b263665289e36fbbefd01c33d5ecca918dd2ec04)
++++ b/gc-coffee/src/main/java/edu/example/gccoffee/entity/Order.java	(date 1725857937961)
+@@ -1,11 +1,13 @@
+ package edu.example.gccoffee.entity;
+ 
++import edu.example.gccoffee.dto.OrderItemDTO;
+ import jakarta.persistence.*;
+ import lombok.*;
+ import org.springframework.data.annotation.CreatedDate;
+ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+ 
+ import java.time.LocalDateTime;
++import java.util.ArrayList;
+ import java.util.List;
+ 
+ @Entity
+@@ -27,7 +29,7 @@
+ 
+     private int postCode;
+ 
+-    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
++    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+     private List<OrderItem> orderItem;
+ 
+     @Enumerated(value = EnumType.STRING)
+@@ -36,6 +38,24 @@
+     @CreatedDate
+     private LocalDateTime createAt;
+ 
++    public void addOrderItems(List<OrderItemDTO> orderItemsDTO){
++        List<OrderItem> orderItems = new ArrayList<>();
++        for (OrderItemDTO dto : orderItemsDTO) {
++//            Product product = productService.findById(dto.getProductId()); // 제품 정보 가져오기
++
++            OrderItem orderItem = OrderItem.builder()
++//                    .product(product)
++                    .quantity(dto.getQuantity())
++                    .price(dto.getPrice())
++                    .order(dto.getOrder())
++                    .category(dto.getCategory())
++                    .build();
++
++            orderItems.add(orderItem);
++        }
++    }
++
++
+     public void changeAddress(String address) {
+         this.address = address;
+     }
+Index: gc-coffee/src/main/java/edu/example/gccoffee/entity/OrderItem.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package edu.example.gccoffee.entity;\r\n\r\nimport jakarta.persistence.*;\r\nimport lombok.*;\r\n\r\n@Entity\r\n@Table(name= \"order_items\")\r\n@Getter\r\n@ToString\r\n@NoArgsConstructor\r\n@AllArgsConstructor\r\n@Builder\r\npublic class OrderItem {\r\n    @Id\r\n    @GeneratedValue(strategy = GenerationType.IDENTITY)\r\n    private Long orderItemId;\r\n\r\n    @ManyToOne(fetch = FetchType.LAZY)\r\n    @JoinColumn(name = \"order_id\")\r\n    private Order order;\r\n\r\n    @ManyToOne(fetch = FetchType.LAZY)\r\n    @JoinColumn(name = \"product_id\")\r\n    private Product product;\r\n\r\n    private int quantity;\r\n\r\n    private int price;\r\n\r\n    @Enumerated(value = EnumType.STRING)\r\n    private Category category;\r\n\r\n    public void changeQuantity(int quantity) {\r\n        this.quantity = quantity;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/gc-coffee/src/main/java/edu/example/gccoffee/entity/OrderItem.java b/gc-coffee/src/main/java/edu/example/gccoffee/entity/OrderItem.java
+--- a/gc-coffee/src/main/java/edu/example/gccoffee/entity/OrderItem.java	(revision b263665289e36fbbefd01c33d5ecca918dd2ec04)
++++ b/gc-coffee/src/main/java/edu/example/gccoffee/entity/OrderItem.java	(date 1725857890697)
+@@ -4,7 +4,7 @@
+ import lombok.*;
+ 
+ @Entity
+-@Table(name= "order_items")
++@Table(name = "order_items")
+ @Getter
+ @ToString
+ @NoArgsConstructor
+@@ -33,4 +33,6 @@
+     public void changeQuantity(int quantity) {
+         this.quantity = quantity;
+     }
++
++    // 추가적인 메서드들
+ }
+Index: gc-coffee/src/test/java/edu/example/gccoffee/repository/OrderRepositoryTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package edu.example.gccoffee.repository;\r\n\r\nimport edu.example.gccoffee.entity.Order;\r\nimport edu.example.gccoffee.entity.OrderStatus;\r\nimport lombok.extern.log4j.Log4j2;\r\nimport org.junit.jupiter.api.MethodOrderer;\r\nimport org.junit.jupiter.api.Test;\r\nimport org.junit.jupiter.api.TestMethodOrder;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;\r\nimport org.springframework.boot.test.context.SpringBootTest;\r\nimport org.springframework.transaction.annotation.Propagation;\r\nimport org.springframework.transaction.annotation.Transactional;\r\n\r\nimport java.util.Optional;\r\nimport java.util.SortedSet;\r\nimport java.util.stream.IntStream;\r\n\r\nimport static org.junit.jupiter.api.Assertions.*;\r\n\r\n@SpringBootTest\r\n@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)\r\n@Transactional(propagation = Propagation.NOT_SUPPORTED)\r\n@Log4j2\r\n@TestMethodOrder(MethodOrderer.OrderAnnotation.class)\r\npublic class OrderRepositoryTest {\r\n    @Autowired\r\n    private OrderRepository orderRepository;\r\n\r\n    @Test\r\n    @org.junit.jupiter.api.Order(1)\r\n    public void testInsert() {\r\n        IntStream.rangeClosed(1, 5).forEach(i -> {\r\n            Order order = Order.builder()\r\n                                .email(\"user\" + i + \"@gmail.com\")\r\n                                .address(\"Busan\")\r\n                                .postCode(25342)\r\n                                .orderStatus( i > 3 ? OrderStatus.DELIVERING : OrderStatus.NOT_DELIVERY)\r\n                                .build();\r\n\r\n            //WHEN - 엔티티 저장\r\n            Order savedOrder = orderRepository.save(order);\r\n\r\n            //THEN\r\n            assertNotNull(savedOrder);\r\n            assertEquals(i, savedOrder.getOrderId());\r\n        });\r\n    }\r\n\r\n    @Test\r\n    @org.junit.jupiter.api.Order(2)\r\n    public void testRead() {\r\n        Long orderId = 1L;\r\n\r\n        Optional<Order> order = orderRepository.findById(orderId);\r\n\r\n        log.info(order.isPresent());\r\n        assertNotNull(order);\r\n        assertEquals(orderId, order.get().getOrderId());\r\n    }\r\n\r\n    @Test\r\n    @org.junit.jupiter.api.Order(3)\r\n    public void testUpdate() {\r\n        Long orderId = 1L;\r\n        String address = \"변경 주문\";\r\n        String email = \"변경@gmail.com\";\r\n\r\n\r\n        Optional<Order> order = orderRepository.findById(orderId);\r\n\r\n    }\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/gc-coffee/src/test/java/edu/example/gccoffee/repository/OrderRepositoryTest.java b/gc-coffee/src/test/java/edu/example/gccoffee/repository/OrderRepositoryTest.java
+--- a/gc-coffee/src/test/java/edu/example/gccoffee/repository/OrderRepositoryTest.java	(revision b263665289e36fbbefd01c33d5ecca918dd2ec04)
++++ b/gc-coffee/src/test/java/edu/example/gccoffee/repository/OrderRepositoryTest.java	(date 1725849038153)
+@@ -66,7 +66,6 @@
+         String address = "변경 주문";
+         String email = "변경@gmail.com";
+ 
+-
+         Optional<Order> order = orderRepository.findById(orderId);
+ 
+     }
+Index: gc-coffee/src/main/resources/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>spring.application.name=gc-coffee\r\nspring.datasource.url=jdbc:mysql://localhost:3306/coffee\r\nspring.datasource.username=${DB_USERNAME}\r\nspring.datasource.password=${DB_PASSWORD}\r\n\r\nspring.jpa.hibernate.ddl-auto=update
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/gc-coffee/src/main/resources/application.properties b/gc-coffee/src/main/resources/application.properties
+--- a/gc-coffee/src/main/resources/application.properties	(revision b263665289e36fbbefd01c33d5ecca918dd2ec04)
++++ b/gc-coffee/src/main/resources/application.properties	(date 1725849248548)
+@@ -1,6 +1,6 @@
+ spring.application.name=gc-coffee
+ spring.datasource.url=jdbc:mysql://localhost:3306/coffee
+-spring.datasource.username=${DB_USERNAME}
+-spring.datasource.password=${DB_PASSWORD}
++spring.datasource.username=root
++spring.datasource.password=0372
+ 
+ spring.jpa.hibernate.ddl-auto=update
+\ No newline at end of file

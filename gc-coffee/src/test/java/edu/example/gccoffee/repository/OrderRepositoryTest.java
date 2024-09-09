@@ -88,7 +88,6 @@ public class OrderRepositoryTest {
     }
 
     @Test
-    @org.junit.jupiter.api.Order(4)
     public void testDelete() {
         Long orderId = 5L;
 
