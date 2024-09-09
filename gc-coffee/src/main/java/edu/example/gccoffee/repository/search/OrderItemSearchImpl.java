@@ -4,6 +4,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class OrderItemSearchImpl implements OrderItemsSearch {
+public class OrderItemSearchImpl implements OrderItemSearch {
     private final JPAQueryFactory jpaQueryFactory;
 }
