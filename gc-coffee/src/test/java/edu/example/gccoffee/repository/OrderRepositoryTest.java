@@ -9,6 +9,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,13 +64,36 @@ public class OrderRepositoryTest {
     @org.junit.jupiter.api.Order(3)
     public void testUpdate() {
         Long orderId = 1L;
-        String address = "변경 주문";
+        String address = "변경 주소";
         String email = "변경@gmail.com";
+        int postCode = 11111;
 
 
         Optional<Order> order = orderRepository.findById(orderId);
+        assertTrue(order.isPresent());
 
+        Order orderToUpdate = order.get();
+        orderToUpdate.changeEmail(email);
+        orderToUpdate.changeAddress(address);
+        orderToUpdate.changePostCode(postCode);
+
+        orderRepository.save(orderToUpdate);
+
+        order = orderRepository.findById(orderId);
+        assertTrue(order.isPresent());
+        assertEquals(orderId, order.get().getOrderId());
+        assertEquals(email, order.get().getEmail());
+        assertEquals(address, order.get().getAddress());
+        assertEquals(postCode, order.get().getPostCode());
     }
 
+    @Test
+    public void testDelete() {
+        Long orderId = 5L;
 
+        assertTrue(orderRepository.existsById(orderId));
+
+        orderRepository.deleteById(orderId);
+        assertFalse(orderRepository.existsById(orderId));
+    }
 }
