@@ -3,7 +3,6 @@ package edu.example.gccoffee.exception;
 import org.springframework.http.HttpStatus;
 
 public enum ProductException {
-
     PRODUCT_NOT_FOUND("Product with the given ID was not found", HttpStatus.NOT_FOUND),
     PRODUCT_NAME_NOT_VALID("Product name is invalid", HttpStatus.BAD_REQUEST),
     PRODUCT_CATEGORY_NOT_VALID("Product category is invalid", HttpStatus.BAD_REQUEST),
@@ -15,6 +14,7 @@ public enum ProductException {
 
     private final String message;
     private final HttpStatus status;
+    private ProductTaskException productTaskException;
 
     ProductException(String message, HttpStatus status) {
         this.message = message;
@@ -23,5 +23,9 @@ public enum ProductException {
 
     public ProductTaskException getProductTaskException() {
         return new ProductTaskException(this.message, this.status.value());
+    }
+
+    public ProductTaskException get(){
+        return productTaskException;
     }
 }
