@@ -4,7 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="20367267-474b-419b-9d7a-8c78f4f38292" name="Changes" comment="+ orderService" />
+    <list default="true" id="20367267-474b-419b-9d7a-8c78f4f38292" name="Changes" comment="+ orderService">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024-09-09__2_16__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024-09-09__2_16__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2024-09-09__11_30__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2024-09-09__11_30__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2024-09-09__11_30__Changes_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2024-09-09__11_30__Changes_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gc-coffee/src/main/java/edu/example/gccoffee/entity/OrderItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/gc-coffee/src/main/java/edu/example/gccoffee/entity/OrderItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gc-coffee/src/main/java/edu/example/gccoffee/exception/ProductException.java" beforeDir="false" afterPath="$PROJECT_DIR$/gc-coffee/src/main/java/edu/example/gccoffee/exception/ProductException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gc-coffee/src/main/java/edu/example/gccoffee/repository/OrderRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/gc-coffee/src/main/java/edu/example/gccoffee/repository/OrderRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gc-coffee/src/main/java/edu/example/gccoffee/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/gc-coffee/src/main/java/edu/example/gccoffee/service/OrderService.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -97,7 +106,7 @@
     "Gradle.gc-coffee [build].executor": "Run",
     "Gradle.gc-coffee [clean].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "Order-DTO",
+    "git-widget-placeholder": "Order",
     "kotlin-language-version-configured": "true",
     "settings.editor.selected.configurable": "vcs.Git"
   }
