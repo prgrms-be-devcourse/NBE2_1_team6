@@ -28,8 +28,8 @@ public class OrderItemDTO {
         this.quantity = orderItem.getQuantity();
         this.price = orderItem.getPrice();
         this.category = orderItem.getCategory();
-        this.order = orderItem.getOrderId();
-        this.product = orderItem.getProductId();
+        this.order = orderItem.getOrder();
+        this.product = orderItem.getProduct();
     }
 
     public OrderItem toEntity(){
@@ -38,8 +38,8 @@ public class OrderItemDTO {
                 .quantity(quantity)
                 .price(price)
                 .category(category)
-                .orderId(order)
-                .productId(product)
+                .order(order)
+                .product(product)
                 .build();
     }
 }

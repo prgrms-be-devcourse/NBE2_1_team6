@@ -14,6 +14,7 @@ public enum ProductException {
 
     private final String message;
     private final HttpStatus status;
+    private ProductTaskException productTaskException;
 
     ProductException(String message, HttpStatus status) {
         this.message = message;
@@ -22,5 +23,9 @@ public enum ProductException {
 
     public ProductTaskException getProductTaskException() {
         return new ProductTaskException(this.message, this.status.value());
+    }
+
+    public ProductTaskException get(){
+        return productTaskException;
     }
 }
