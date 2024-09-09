@@ -28,17 +28,18 @@ public class OrderItemDTO {
         this.quantity = orderItem.getQuantity();
         this.price = orderItem.getPrice();
         this.category = orderItem.getCategory();
-        this.order = orderItem.getOrder();
-        this.product = orderItem.getProduct();
+        this.order = orderItem.getOrderId();
+        this.product = orderItem.getProductId();
     }
+
     public OrderItem toEntity(){
         return OrderItem.builder()
                 .orderItemId(orderItemId)
                 .quantity(quantity)
                 .price(price)
                 .category(category)
-                .order(order)
-                .product(product)
+                .orderId(order)
+                .productId(product)
                 .build();
     }
 }
