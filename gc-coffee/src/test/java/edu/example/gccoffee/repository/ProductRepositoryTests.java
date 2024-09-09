@@ -68,7 +68,7 @@ public class ProductRepositoryTests {
 
             log.info(savedProduct);
         });
-        assertEquals(10, productRepository.count());
+        assertEquals(11, productRepository.count());
     }
 
     @Test
@@ -77,7 +77,7 @@ public class ProductRepositoryTests {
     @org.junit.jupiter.api.Order(3)
     @DisplayName("업데이트 테스트")
     public void testUpdate() {
-        Long productId = 3L;
+        Long productId = 2L;
 
         Optional<Product> foundProduct = productRepository.findById(productId);
         assertTrue(foundProduct.isPresent(), "Product should be present");
@@ -119,8 +119,8 @@ public class ProductRepositoryTests {
         assertNotNull(product);
         assertEquals(2, product.getProductId());
         assertEquals(100000, product.getPrice());
-        assertEquals("제품명 재업데이트", product.getProductName());
-        assertEquals("제품 설명 재업데이트", product.getDescription());
+        assertEquals("제품명 업데이트", product.getProductName());
+        assertEquals("제품 설명 업데이트", product.getDescription());
     }
 
     @Test
