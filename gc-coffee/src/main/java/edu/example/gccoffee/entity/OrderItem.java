@@ -10,6 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Setter
 public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,4 +34,5 @@ public class OrderItem {
     public void changeQuantity(int quantity) {
         this.quantity = quantity;
     }
+
 }
