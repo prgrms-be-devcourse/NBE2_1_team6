@@ -4,14 +4,10 @@ import org.springframework.http.HttpStatus;
 
 public enum ProductException {
 
-    PRODUCT_NOT_FOUND("Product with the given ID was not found", HttpStatus.NOT_FOUND),
-    PRODUCT_NAME_NOT_VALID("Product name is invalid", HttpStatus.BAD_REQUEST),
-    PRODUCT_CATEGORY_NOT_VALID("Product category is invalid", HttpStatus.BAD_REQUEST),
-    PRODUCT_PRICE_NOT_VALID("Product price must be greater than zero", HttpStatus.BAD_REQUEST),
-    PRODUCT_DESCRIPTION_NOT_VALID("Product description is invalid", HttpStatus.BAD_REQUEST),
-    PRODUCT_NOT_REGISTERED("Product could not be registered", HttpStatus.BAD_REQUEST),
-    PRODUCT_NOT_MODIFIED("Product could not be modified", HttpStatus.BAD_REQUEST),
-    PRODUCT_NOT_REMOVED("Product could not be removed", HttpStatus.BAD_REQUEST);
+    PRODUCT_NOT_FOUND("입력하신 id와 일치하는 상품이 없습니다.", HttpStatus.NOT_FOUND),
+    PRODUCT_NOT_REGISTERED("상품 등록에 실패했습니다.", HttpStatus.BAD_REQUEST),
+    PRODUCT_NOT_MODIFIED("상품 수정에 실패했습니다..", HttpStatus.BAD_REQUEST),
+    PRODUCT_NOT_REMOVED("상품 삭제에 실패했습니다.", HttpStatus.BAD_REQUEST);
 
     private final String message;
     private final HttpStatus status;
