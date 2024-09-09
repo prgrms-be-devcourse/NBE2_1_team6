@@ -4,7 +4,9 @@ import edu.example.gccoffee.entity.Category;
 import edu.example.gccoffee.entity.Product;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,11 +27,13 @@ import static org.junit.jupiter.api.Assertions.*;
 @Log4j2
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Transactional(propagation = Propagation.NOT_SUPPORTED)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ProductRepositoryTests {
     @Autowired
     private ProductRepository productRepository;
 
     @Test
+    @org.junit.jupiter.api.Order(1)
     public void testInsert() {
         //GIVEN
         Product product = Product.builder().productName("상품1").category(Category.COFFEE_BEAN_PACKAGE).price(3000).description("상품 추가 테스트").build();
@@ -49,6 +53,7 @@ public class ProductRepositoryTests {
     }
 
     @Test
+    @org.junit.jupiter.api.Order(2)
     public void testInsertTen() {
         IntStream.rangeClosed(1, 10).forEach(i -> {
             //GIVEN
@@ -66,6 +71,7 @@ public class ProductRepositoryTests {
     }
 
     @Test
+    @org.junit.jupiter.api.Order(3)
     @DisplayName("업데이트 테스트")
     public void testUpdate() {
         Long productId = 3L;
@@ -86,6 +92,7 @@ public class ProductRepositoryTests {
     }
 
     @Test
+    @org.junit.jupiter.api.Order(4)
     public void testDelete() {
         //GIVEN
         Long productId = 1L;
@@ -99,6 +106,7 @@ public class ProductRepositoryTests {
     }
 
     @Test
+    @org.junit.jupiter.api.Order(5)
     @DisplayName("읽어오기 테스트")
     public void testRead() {
         Long productId = 2L;
@@ -115,6 +123,7 @@ public class ProductRepositoryTests {
     }
 
     @Test
+    @org.junit.jupiter.api.Order(6)
     public void testReadAll() {
         //GIVEN
         Pageable pageable = PageRequest.of(0, 5, Sort.by("productId").descending());
