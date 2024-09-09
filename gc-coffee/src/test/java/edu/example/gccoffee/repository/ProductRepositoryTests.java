@@ -3,7 +3,10 @@ package edu.example.gccoffee.repository;
 import edu.example.gccoffee.entity.Category;
 import edu.example.gccoffee.entity.Product;
 import lombok.extern.log4j.Log4j2;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,6 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 import java.util.Random;
 import java.util.stream.IntStream;
 
@@ -23,11 +27,13 @@ import static org.junit.jupiter.api.Assertions.*;
 @Log4j2
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Transactional(propagation = Propagation.NOT_SUPPORTED)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ProductRepositoryTests {
     @Autowired
     private ProductRepository productRepository;
 
     @Test
+    @org.junit.jupiter.api.Order(1)
     public void testInsert() {
         //GIVEN
         Product product = Product.builder().productName("상품1").category(Category.COFFEE_BEAN_PACKAGE).price(3000).description("상품 추가 테스트").build();
@@ -47,8 +53,9 @@ public class ProductRepositoryTests {
     }
 
     @Test
+    @org.junit.jupiter.api.Order(2)
     public void testInsertTen() {
-        IntStream.rangeClosed(1,10).forEach(i -> {
+        IntStream.rangeClosed(1, 10).forEach(i -> {
             //GIVEN
             Product product = Product.builder().productName("상품" + i).category(Category.COFFEE_BEAN_PACKAGE).price(new Random().nextInt(1, 5) * 1000).description("상품" + i + " 추가").build();
 
@@ -64,6 +71,28 @@ public class ProductRepositoryTests {
     }
 
     @Test
+    @org.junit.jupiter.api.Order(3)
+    @DisplayName("업데이트 테스트")
+    public void testUpdate() {
+        Long productId = 3L;
+
+        Optional<Product> foundProduct = productRepository.findById(productId);
+        assertTrue(foundProduct.isPresent(), "Product should be present");
+
+        Product product = foundProduct.get();
+        product.changeProductName("제품명 업데이트");
+        product.changePrice(100000);
+        product.changeDescription("제품 설명 업데이트");
+
+        productRepository.save(product);
+
+        assertEquals("제품명 업데이트", product.getProductName(), "제품명 일치하지 않음");
+        assertEquals(100000, product.getPrice(), "가격 일치하지 않음");
+        assertEquals("제품 설명 업데이트", product.getDescription(), "제품 설명 일치하지 않음");
+    }
+
+    @Test
+    @org.junit.jupiter.api.Order(4)
     public void testDelete() {
         //GIVEN
         Long productId = 1L;
@@ -77,6 +106,24 @@ public class ProductRepositoryTests {
     }
 
     @Test
+    @org.junit.jupiter.api.Order(5)
+    @DisplayName("읽어오기 테스트")
+    public void testRead() {
+        Long productId = 2L;
+
+        Optional<Product> foundProduct = productRepository.findById(productId);
+        assertTrue(foundProduct.isPresent(), "Product should be present");
+
+        Product product = foundProduct.get();
+        assertNotNull(product);
+        assertEquals(2, product.getProductId());
+        assertEquals(100000, product.getPrice());
+        assertEquals("제품명 재업데이트", product.getProductName());
+        assertEquals("제품 설명 재업데이트", product.getDescription());
+    }
+
+    @Test
+    @org.junit.jupiter.api.Order(6)
     public void testReadAll() {
         //GIVEN
         Pageable pageable = PageRequest.of(0, 5, Sort.by("productId").descending());
