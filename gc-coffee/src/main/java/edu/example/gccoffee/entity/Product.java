@@ -19,7 +19,8 @@ public class Product {
     private String productName;
 
     @Column(nullable = false)
-    private String category;
+    @Enumerated(value = EnumType.STRING)
+    private Category category;
 
     @Column(nullable = false)
     private int price;
