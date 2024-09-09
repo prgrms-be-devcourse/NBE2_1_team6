@@ -70,7 +70,7 @@ public class ProductService {
         try {
             Sort sort = Sort.by("productName").descending();
             Pageable pageable = pageRequestDTO.toPageable(sort);
-            return productRepository.searchDTO(pageable);
+            return productRepository.getPage(pageable);
         } catch (Exception e) {
             log.error(e.getMessage());
             throw ProductException.PRODUCT_NOT_FOUND.getProductTaskException();
