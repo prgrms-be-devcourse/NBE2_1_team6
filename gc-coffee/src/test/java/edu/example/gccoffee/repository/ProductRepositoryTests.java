@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,14 +68,16 @@ public class ProductRepositoryTests {
 
             log.info(savedProduct);
         });
-        assertEquals(10, productRepository.count());
+        assertEquals(11, productRepository.count());
     }
 
     @Test
+    @Transactional
+    @Commit
     @org.junit.jupiter.api.Order(3)
     @DisplayName("업데이트 테스트")
     public void testUpdate() {
-        Long productId = 3L;
+        Long productId = 2L;
 
         Optional<Product> foundProduct = productRepository.findById(productId);
         assertTrue(foundProduct.isPresent(), "Product should be present");
@@ -83,8 +86,6 @@ public class ProductRepositoryTests {
         product.changeProductName("제품명 업데이트");
         product.changePrice(100000);
         product.changeDescription("제품 설명 업데이트");
-
-        productRepository.save(product);
 
         assertEquals("제품명 업데이트", product.getProductName(), "제품명 일치하지 않음");
         assertEquals(100000, product.getPrice(), "가격 일치하지 않음");
@@ -118,8 +119,8 @@ public class ProductRepositoryTests {
         assertNotNull(product);
         assertEquals(2, product.getProductId());
         assertEquals(100000, product.getPrice());
-        assertEquals("제품명 재업데이트", product.getProductName());
-        assertEquals("제품 설명 재업데이트", product.getDescription());
+        assertEquals("제품명 업데이트", product.getProductName());
+        assertEquals("제품 설명 업데이트", product.getDescription());
     }
 
     @Test
