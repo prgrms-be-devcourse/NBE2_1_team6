@@ -20,7 +20,7 @@ import java.util.Map;
 public class ProductRestController {
     private final ProductService productService;
 
-    @GetMapping("/lists")
+    @GetMapping
     public ResponseEntity<List<ProductDTO>> getList() {
         return ResponseEntity.ok(productService.getList());
     }

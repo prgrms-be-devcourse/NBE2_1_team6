@@ -25,6 +25,7 @@
     </tr>
     </thead>
     <tbody>
+
     <tr th:each="product: ${products}" th:object="${product}">
         <td th:text="*{productId}"></td>
         <td th:text="*{productName}"></td>
@@ -32,10 +33,9 @@
         <td th:text="*{price}"></td>
         <td th:text="*{description}"></td>
         <td class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <a th:href="@{/modify-product}" class="btn btn-primary me-md-2" type="button">Modify</a>
-        </td>
-        <td class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <a th:href="@{/remove-product}" class="btn btn-primary me-md-2" type="button">Remove</a>
+<!--            <a th:href="@{/modify-product?id=${product.productId}}" class="btn btn-primary me-md-2" type="button">Modify</a>-->
+            <a th:href="@{/delete-product?id=${product.productId}}" class="btn btn-primary me-md-2" type="button">Delete</a>
+            <a th:href="@{/modify-product?id=2}" class="btn btn-primary me-md-2" type="button">Modify</a>
         </td>
     </tr>
     </tbody>
