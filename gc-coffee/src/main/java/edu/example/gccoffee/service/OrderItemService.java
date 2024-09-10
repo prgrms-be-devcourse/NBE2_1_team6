@@ -30,6 +30,7 @@ public class OrderItemService {
     private final OrderItemRepository orderItemRepository;
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
+
     public List<OrderItem> modify(List<OrderItemDTO> orderItemDTOs,Long orderId){
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("Order not found"));
         List<OrderItem> originOrder = order.getOrderItem();
@@ -38,6 +39,7 @@ public class OrderItemService {
         }
         List<OrderItem> itemList = new ArrayList<>();
         for (OrderItemDTO orderItemDTO : orderItemDTOs) {
+            orderItemDTO.setOrderId(orderId);
             orderItemRepository.save(toEntity(orderItemDTO));
             itemList.add(toEntity(orderItemDTO));
         }
