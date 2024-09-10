@@ -1,11 +1,13 @@
 package edu.example.gccoffee.entity;
 
+import edu.example.gccoffee.dto.OrderItemDTO;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -27,7 +29,7 @@ public class Order {
 
     private int postCode;
 
-    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> orderItem;
 
     @Enumerated(value = EnumType.STRING)
@@ -46,5 +48,9 @@ public class Order {
 
     public void changeEmail(String email) {
         this.email = email;
+    }
+
+    public void changeOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
     }
 }
