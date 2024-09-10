@@ -26,17 +26,17 @@ public class OrderController {
         log.info("--- OrderDTO: " + orderDTO);
 
 
-        return null;
+        return ResponseEntity.ok(orderService.add(orderDTO));
     }
 
     //주문자 주문 목록
     @GetMapping("/{email}")
-    public ResponseEntity<List<OrderDTO>> GetOrders(@PathVariable Long email) {
+    public ResponseEntity<List<OrderDTO>> GetOrders(@PathVariable String email) {
         log.info("--- GetOrders()");
         log.info("--- email: " + email);
 
-        //Service 조회 List로 변경 후 작성
-        return null;
+
+        return ResponseEntity.ok(orderService.read(email));
     }
 
     //모든 주문 조회
@@ -44,8 +44,8 @@ public class OrderController {
     public ResponseEntity<List<OrderDTO>> GetAllOrders() {
         log.info("--- GetAllOrders()");
 
-        //Service 모든 조회 작성후 변경
-        return null;
+
+        return ResponseEntity.ok(orderService.readAll());
     }
 
     //주문 수정하기
@@ -56,6 +56,8 @@ public class OrderController {
         log.info("--- orderId: " + orderId);
         log.info("--- OrderDTO: " + orderDTO);
 
+        orderDTO.setOrderId(orderId);
+        log.info("--- OrderDTO: " + orderDTO);
         return ResponseEntity.ok(orderService.update(orderDTO));
     }
 
