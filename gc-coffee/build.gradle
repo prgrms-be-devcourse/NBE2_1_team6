@@ -31,6 +31,7 @@ dependencies {
     implementation 'com.zaxxer:HikariCP:5.1.0'
     implementation 'com.querydsl:querydsl-jpa:5.1.0:jakarta'
 
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf:3.3.3'
 
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
