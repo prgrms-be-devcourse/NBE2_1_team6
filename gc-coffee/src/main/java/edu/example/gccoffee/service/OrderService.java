@@ -5,6 +5,7 @@ import edu.example.gccoffee.dto.OrderDTO;
 import edu.example.gccoffee.dto.OrderItemDTO;
 import edu.example.gccoffee.entity.Order;
 import edu.example.gccoffee.entity.OrderItem;
+import edu.example.gccoffee.entity.OrderStatus;
 import edu.example.gccoffee.entity.Product;
 import edu.example.gccoffee.exception.OrderException;
 import edu.example.gccoffee.exception.ProductException;
@@ -13,12 +14,15 @@ import edu.example.gccoffee.repository.OrderRepository;
 import edu.example.gccoffee.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +32,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
     private final ProductRepository productRepository;
+
     public void add(OrderDTO orderDTO){   //등록
         orderRepository.save(orderDTO.toEntity());
         List<OrderItem> orderItems = orderDTO.getOrderItem();
@@ -71,5 +76,19 @@ public class OrderService {
 
     public void delete(Long orderId){
         orderRepository.deleteById(orderId);
+    }
+
+    @Scheduled(cron = "0 24 10 * * ?")
+    public void processOrder() {
+        List<Order> orders = orderRepository.findAllByOrderStatus(OrderStatus.NOT_DELIVERY);
+
+        if (orders.isEmpty()) {
+            return;
+        }
+
+        int ordersSize = orders.size();
+        orders.forEach(order -> order.changeOrderStatus(OrderStatus.DELIVERING));
+
+        orderRepository.saveAll(orders);
     }
 }

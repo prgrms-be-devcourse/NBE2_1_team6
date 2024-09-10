@@ -67,4 +67,8 @@ public class Order {
     public void changeEmail(String email) {
         this.email = email;
     }
+
+    public void changeOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
+    }
 }
