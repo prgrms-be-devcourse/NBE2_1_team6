@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name= "orders")
+@Table(name= "orders",indexes = @Index(columnList = "email"))
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
