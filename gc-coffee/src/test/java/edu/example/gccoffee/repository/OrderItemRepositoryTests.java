@@ -34,7 +34,7 @@ public class OrderItemRepositoryTests {
     private ProductRepository productRepository;
 
     @BeforeAll
-    void setupBeforeEachMethod() {
+    void setupBeforeAllMethod() {
         IntStream.rangeClosed(1, 10).forEach(i -> {
             Order order = Order.builder()
                     .email("user" + i + "@gmail.com")
