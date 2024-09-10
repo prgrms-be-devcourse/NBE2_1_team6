@@ -28,13 +28,13 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
     private final ProductRepository productRepository;
-    public void add(OrderDTO orderDTO){   //등록
+    public OrderDTO add(OrderDTO orderDTO){   //등록
         orderRepository.save(orderDTO.toEntity());
         List<OrderItem> orderItems = orderDTO.getOrderItem();
         for (OrderItem orderItem : orderItems) {
-            OrderItemDTO orderItemDto = new OrderItemDTO(orderItem);
+            OrderItemDTO orderItemDTO = new OrderItemDTO(orderItem);
             Order order = orderRepository.findById(orderDTO.getOrderId()).get();
-            Product product = orderItem.getProduct();
+            Product product = productRepository.findById(orderItemDTO.getProductId()).get();
 
             orderItem.setOrder(order);
             orderItem.setProduct(product);
@@ -42,8 +42,9 @@ public class OrderService {
             // OrderItem 저장
             orderItemRepository.save(orderItem);
         }
+        return orderDTO;
     }
-
+//반환 타입 수정
     public OrderDTO read(String email) {     //조회
         Optional<Order> order = orderRepository.findByEmail(email);
         if (order.isPresent()) {
