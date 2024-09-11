@@ -35,8 +35,8 @@ function App() {
             const orderData = {
                 email: order.email,
                 address: order.address,
-                postcode: order.postcode,
-                orderItems: items.map(v => ({
+                postCode: order.postcode,
+                orderItem: items.map(v => ({
                     productId: v.productId,
                     category: v.category,
                     price: v.price,
@@ -47,7 +47,7 @@ function App() {
             axios.post('http://localhost:8080/api/v1/orders', orderData)
                 .then(
                     response =>
-                        alert(response.datas.message || "주문이 정상적으로 접수되었습니다."),
+                        alert(response.data.message || "주문이 정상적으로 접수되었습니다."),
                     error => {
                         alert(error.response?.data?.message || "서버 장애가 발생 했습니다.");
                         console.error(error);
