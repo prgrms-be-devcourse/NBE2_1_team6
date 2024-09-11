@@ -28,7 +28,7 @@ public class APIControllerAdvice {
     }
 
     @ExceptionHandler(OrderTaskException.class)
-    public ResponseEntity<?> handleProductTaskException(OrderTaskException e) {
+    public ResponseEntity<?> handleOrderTaskException(OrderTaskException e) {
         log.info("--- OrderTaskException");
         log.info("--- e.getClass().getName() : " + e.getClass().getName());
         log.info("--- e.getMessage() : " + e.getMessage());
