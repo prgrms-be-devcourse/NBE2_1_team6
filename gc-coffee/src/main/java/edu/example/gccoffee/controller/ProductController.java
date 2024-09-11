@@ -40,7 +40,7 @@ public class ProductController {
         return "product/modify-product";
     }
 
-    @PostMapping("products/update")
+    @PostMapping("/products/update")
     public String updateProduct(@ModelAttribute ProductDTO productDTO) {
         productService.update(productDTO);
         return "redirect:/products";
