@@ -7,6 +7,7 @@ import edu.example.gccoffee.entity.Category;
 import edu.example.gccoffee.entity.Order;
 import edu.example.gccoffee.entity.OrderItem;
 import edu.example.gccoffee.entity.Product;
+import edu.example.gccoffee.exception.OrderException;
 import edu.example.gccoffee.repository.OrderItemRepository;
 import edu.example.gccoffee.repository.OrderRepository;
 import edu.example.gccoffee.repository.ProductRepository;
@@ -41,6 +42,19 @@ public class OrderItemService {
         }
         return itemList;
     }
+
+    public List<OrderItemDTO> readAll(Long orderId) {
+        List<OrderItem> orderItems = orderItemRepository.findAllByOrderId(orderId);
+        List<OrderItemDTO> orderItemDTOs = new ArrayList<>();
+
+        if (orderItems.isEmpty()) {
+            throw OrderException.ORDERITEM_NOT_FOUND.getOrderTaskException();
+        }
+
+        orderItems.forEach(item -> orderItemDTOs.add(new OrderItemDTO(item)));
+        return orderItemDTOs;
+    }
+
     public OrderItem toEntity(OrderItemDTO dto) {
         Product product = productRepository.findById(dto.getProductId()).orElseThrow(() -> new RuntimeException("Product not found"));
         Order order = orderRepository.findById(dto.getOrderId()).orElseThrow(() -> new RuntimeException("Order not found"));
