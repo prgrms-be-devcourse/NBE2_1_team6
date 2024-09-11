@@ -12,7 +12,7 @@
 <h1>Grids & Circles</h1>
 <h2>Production Management</h2>
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-    <a th:href="@{/new-product}" class="btn btn-primary me-md-2" type="button">Add Product</a>
+    <a th:href="@{/product/create}" class="btn btn-primary me-md-2" type="button">Add Product</a>
 </div>
 <table class="table table-hover table-striped">
     <thead>
@@ -25,6 +25,7 @@
     </tr>
     </thead>
     <tbody>
+
     <tr th:each="product: ${products}" th:object="${product}">
         <td th:text="*{productId}"></td>
         <td th:text="*{productName}"></td>
@@ -32,10 +33,8 @@
         <td th:text="*{price}"></td>
         <td th:text="*{description}"></td>
         <td class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <a th:href="@{/modify-product}" class="btn btn-primary me-md-2" type="button">Modify</a>
-        </td>
-        <td class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <a th:href="@{/remove-product}" class="btn btn-primary me-md-2" type="button">Remove</a>
+            <a th:href="@{/product/update/{id}(id=${product.productId})}" class="btn btn-primary me-md-2" type="button">Modify</a>
+            <a th:href="@{/product/delete/{id}(id=${product.productId})}" class="btn btn-primary me-md-2" type="button" onclick="return confirm('정말 삭제하시겠습니까?')">Delete</a>
         </td>
     </tr>
     </tbody>
