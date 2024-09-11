@@ -7,8 +7,6 @@ import edu.example.gccoffee.entity.Category;
 import edu.example.gccoffee.entity.Order;
 import edu.example.gccoffee.entity.OrderItem;
 import edu.example.gccoffee.entity.Product;
-import edu.example.gccoffee.exception.OrderException;
-import edu.example.gccoffee.exception.OrderTaskException;
 import edu.example.gccoffee.repository.OrderItemRepository;
 import edu.example.gccoffee.repository.OrderRepository;
 import edu.example.gccoffee.repository.ProductRepository;
@@ -18,9 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
