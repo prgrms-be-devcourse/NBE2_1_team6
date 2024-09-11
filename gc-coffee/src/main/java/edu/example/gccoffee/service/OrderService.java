@@ -5,6 +5,7 @@ import edu.example.gccoffee.dto.OrderDTO;
 import edu.example.gccoffee.dto.OrderItemDTO;
 import edu.example.gccoffee.entity.*;
 import edu.example.gccoffee.exception.OrderException;
+import edu.example.gccoffee.exception.OrderTaskException;
 import edu.example.gccoffee.exception.ProductException;
 import edu.example.gccoffee.repository.OrderItemRepository;
 import edu.example.gccoffee.repository.OrderRepository;
@@ -81,7 +82,10 @@ public class OrderService {
     }
 
     public OrderDTO update(OrderDTO orderDTO){
-        Optional<Order> foundOrder = orderRepository.findById(orderDTO.getOrderId());   //수정하려는 상품을 데이터베이스에서 조회해서
+        Optional<Order> foundOrder = orderRepository.findById(orderDTO.getOrderId());
+        if(foundOrder.get().getOrderStatus().equals(OrderStatus.DELIVERING)){
+            throw OrderException.ORDER_NOT_MODIFIED_DELIVERING.getOrderTaskException();
+        }
         Order order = foundOrder.orElseThrow(ProductException.PRODUCT_NOT_FOUND::get);
         List <OrderItemDTO> orderItems = orderDTO.getOrderItem();
 

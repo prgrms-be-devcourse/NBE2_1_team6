@@ -8,10 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-
 @CrossOrigin
-@RestController
-@RequestMapping("/api/v1/products")
 @Controller
 @RequiredArgsConstructor
 @Log4j2
@@ -24,14 +21,32 @@ public class ProductController {
         return "product/product-list";
     }
 
-    @GetMapping("new-product")
+    @GetMapping("product/create")
     public String newProductPage() {
         return "product/new-product";
     }
 
     @PostMapping("/products")
-    public String newProduct(ProductDTO productDTO) {
+    public String createProduct(ProductDTO productDTO) {
         productService.create(productDTO);
+        return "redirect:/products";
+    }
+
+    @GetMapping("product/update/{id}")
+    public String modifyProductPage(@PathVariable Long id, Model model) {
+        model.addAttribute("product", productService.read(id));
+        return "product/modify-product";
+    }
+
+    @PostMapping("/products/update")
+    public String updateProduct(@ModelAttribute ProductDTO productDTO) {
+        productService.update(productDTO);
+        return "redirect:/products";
+    }
+
+    @GetMapping("product/delete/{id}")
+    public String deleteProduct(@PathVariable Long id) {
+        productService.delete(id);
         return "redirect:/products";
     }
 }

@@ -83,4 +83,8 @@ public class ProductService {
     public List<ProductDTO> getList() {
         return productRepository.findAll().stream().map(ProductDTO::new).collect(Collectors.toList());
     }
+
+    public ProductDTO read(Long productId) {
+        return new ProductDTO(productRepository.findById(productId).orElseThrow(ProductException.PRODUCT_NOT_FOUND::getProductTaskException));
+    }
 }
