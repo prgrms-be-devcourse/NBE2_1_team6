@@ -2,6 +2,7 @@ package edu.example.gccoffee.controller;
 
 import edu.example.gccoffee.dto.OrderDTO;
 import edu.example.gccoffee.service.OrderService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("api/v1/orders")
 @Log4j2
+@Tag(name = "Order", description = "Order API")
 public class OrderRestController {
     private final OrderService orderService;
 
