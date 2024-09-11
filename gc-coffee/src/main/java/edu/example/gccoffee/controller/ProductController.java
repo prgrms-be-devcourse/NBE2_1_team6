@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 
 @CrossOrigin
-@RestController
-@RequestMapping("/api/v1/products")
 @Controller
 @RequiredArgsConstructor
 @Log4j2

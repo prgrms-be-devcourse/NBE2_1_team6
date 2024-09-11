@@ -1,7 +1,6 @@
 package edu.example.gccoffee.controller;
 
 import edu.example.gccoffee.dto.OrderDTO;
-import edu.example.gccoffee.entity.Order;
 import edu.example.gccoffee.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -16,7 +15,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("api/v1/orders")
 @Log4j2
-public class OrderController {
+public class OrderRestController {
     private final OrderService orderService;
 
     //주문하기
