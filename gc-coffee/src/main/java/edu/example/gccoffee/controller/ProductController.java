@@ -8,10 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-
-
 @CrossOrigin
-@RequestMapping("/api/v1/products")
 @Controller
 @RequiredArgsConstructor
 @Log4j2
@@ -41,7 +38,7 @@ public class ProductController {
         return "product/modify-product";
     }
 
-    @PostMapping("products/update")
+    @PostMapping("/products/update")
     public String updateProduct(@ModelAttribute ProductDTO productDTO) {
         productService.update(productDTO);
         return "redirect:/products";

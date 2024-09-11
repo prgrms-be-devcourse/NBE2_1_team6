@@ -13,7 +13,7 @@
 <h2>Production Management</h2>
 <form th:action="@{/products/update}" method="post">
 
-    <input type="hidden" name="id" th:value="${product.productId}" />
+    <input type="hidden" id="productId" name="productId" th:value="${product.productId}" />
 
     <div class="mb-3">
         <label for="productName" class="form-label">Name</label>
