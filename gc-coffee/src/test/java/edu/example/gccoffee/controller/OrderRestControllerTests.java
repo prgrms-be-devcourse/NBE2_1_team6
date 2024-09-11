@@ -32,8 +32,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(controllers = OrderController.class)
-public class OrderControllerTests {
+@WebMvcTest(controllers = OrderRestController.class)
+public class OrderRestControllerTests {
     @Autowired
     private MockMvc mockMvc;
 
@@ -45,7 +45,7 @@ public class OrderControllerTests {
     @BeforeEach
     void setupBeforeEachMethod() {
         mockMvc = MockMvcBuilders
-                .standaloneSetup(new OrderController(orderService))
+                .standaloneSetup(new OrderRestController(orderService))
                 .setControllerAdvice(new APIControllerAdvice())
                 .addFilter(new CharacterEncodingFilter("UTF-8", true))
                 .build();
