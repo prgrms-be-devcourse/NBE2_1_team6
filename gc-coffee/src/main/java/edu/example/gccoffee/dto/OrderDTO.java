@@ -6,6 +6,7 @@ import edu.example.gccoffee.entity.OrderStatus;
 import edu.example.gccoffee.entity.Product;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -28,11 +29,10 @@ public class OrderDTO {
     @Schema(description = "주소", example = "서울시 강남구")
     private String address;
 
-    @NotEmpty
+    @NotNull
     @Schema(description = "우편번호", example = "12351")
     private int postCode;
 
-    @NotEmpty
     @Schema(description = "주문상품 목록 정보")
     private List<OrderItemDTO> orderItem;
 
