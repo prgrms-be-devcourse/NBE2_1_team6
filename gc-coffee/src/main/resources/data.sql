@@ -7,10 +7,7 @@ INSERT IGNORE INTO products (product_id, product_name, category, price, descript
 
 -- 초기 ORDER 데이터 5개 삽입.
 INSERT IGNORE INTO orders (order_id, email, address, order_status, post_code, create_at) VALUES (1, 'hong@gmail.com', '서울시 강남구', 'NOT_DELIVERY', '15888', NOW());
-INSERT IGNORE INTO orders (order_id, email, address, order_status, post_code, create_at) VALUES (2, 'username2@email.com', 'ADDRESS_2', 'NOT_DELIVERY', '234567', NOW());
-INSERT IGNORE INTO orders (order_id, email, address, order_status, post_code, create_at) VALUES (3, 'username3@email.com', 'ADDRESS_3', 'NOT_DELIVERY', '345678', NOW());
-INSERT IGNORE INTO orders (order_id, email, address, order_status, post_code, create_at) VALUES (4, 'username4@email.com', 'ADDRESS_4', 'NOT_DELIVERY', '456789', NOW());
-INSERT IGNORE INTO orders (order_id, email, address, order_status, post_code, create_at) VALUES (5, 'username5@email.com', 'ADDRESS_5', 'NOT_DELIVERY', '567890', NOW());
+
 
 -- 초기 ORDER_ITEM 데이터 10개 삽입.
 INSERT IGNORE INTO order_items (order_item_id, order_id, product_id, category, price, quantity) VALUES (1, 1, 3, 'COFFEE_BEAN_PACKAGE', 10000, 2);
