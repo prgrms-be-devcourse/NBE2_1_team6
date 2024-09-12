@@ -9,9 +9,7 @@ import edu.example.gccoffee.entity.OrderStatus;
 import edu.example.gccoffee.exception.OrderException;
 import edu.example.gccoffee.exception.OrderTaskException;
 import edu.example.gccoffee.service.OrderService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -33,6 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = OrderRestController.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class OrderRestControllerTests {
     @Autowired
     private MockMvc mockMvc;
@@ -42,8 +41,8 @@ public class OrderRestControllerTests {
 
     private final String BASE_URI = "/api/v1/orders";
 
-    @BeforeEach
-    void setupBeforeEachMethod() {
+    @BeforeAll
+    void setupBeforeAll() {
         mockMvc = MockMvcBuilders
                 .standaloneSetup(new OrderRestController(orderService))
                 .setControllerAdvice(new APIControllerAdvice())
@@ -248,12 +247,14 @@ public class OrderRestControllerTests {
     @Test
     @DisplayName("주문 수정 테스트 (실패)")
     void test_OrderModify_When_Failure() throws Exception {
+        String jsonRequestBody = new ObjectMapper().writeValueAsString(OrderDTO.builder()
+                .orderId(1L)
+                .email("hong@gmail.com")
+                .address("서울시 강남구")
+                .postCode(12351).build());
+
         OrderTaskException orderTaskException = OrderException.ORDER_NOT_FOUND.getOrderTaskException();
         when(orderService.update(any(OrderDTO.class))).thenThrow(orderTaskException);
-
-        OrderDTO requestDTO = new OrderDTO();
-
-        String jsonRequestBody = new ObjectMapper().writeValueAsString(requestDTO);
 
         mockMvc.perform(put(BASE_URI + "/1")
                         .contentType(MediaType.APPLICATION_JSON)

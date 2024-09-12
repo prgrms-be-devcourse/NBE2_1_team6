@@ -3,6 +3,7 @@ package edu.example.gccoffee.repository;
 import edu.example.gccoffee.entity.Order;
 import edu.example.gccoffee.entity.OrderStatus;
 import lombok.extern.log4j.Log4j2;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -27,6 +28,7 @@ public class OrderRepositoryTest {
     private OrderRepository orderRepository;
 
     @Test
+    @DisplayName("주문 삽입 테스트")
     @org.junit.jupiter.api.Order(1)
     public void testInsert() {
         IntStream.rangeClosed(1, 5).forEach(i -> {
@@ -47,6 +49,7 @@ public class OrderRepositoryTest {
     }
 
     @Test
+    @DisplayName("주문 조회 테스트")
     @org.junit.jupiter.api.Order(2)
     public void testRead() {
         Long orderId = 1L;
@@ -59,6 +62,7 @@ public class OrderRepositoryTest {
     }
 
     @Test
+    @DisplayName("주문 수정 테스트")
     @org.junit.jupiter.api.Order(3)
     public void testUpdate() {
         Long orderId = 1L;
@@ -86,6 +90,7 @@ public class OrderRepositoryTest {
     }
 
     @Test
+    @DisplayName("주문 삭제 테스트")
     public void testDelete() {
         Long orderId = 5L;
 
