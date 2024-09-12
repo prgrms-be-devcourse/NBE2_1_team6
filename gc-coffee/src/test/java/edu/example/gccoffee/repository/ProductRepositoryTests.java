@@ -32,29 +32,29 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ProductRepositoryTests {
     @Autowired
     private ProductRepository productRepository;
-//
-//    @Test
-//    @org.junit.jupiter.api.Order(1)
-//    public void testInsert() {
-//        //GIVEN
-//        Product product = Product.builder().productName("상품1").category(Category.COFFEE_BEAN_PACKAGE).price(3000).description("상품 추가 테스트").build();
-//
-//        //WHEN
-//        Product savedProduct = productRepository.save(product);
-//
-//        //THEN
-//        assertNotNull(savedProduct);
-//        assertEquals(1, savedProduct.getProductId());
-//        assertEquals("상품1", savedProduct.getProductName());
-//        assertEquals(Category.COFFEE_BEAN_PACKAGE, savedProduct.getCategory());
-//        assertEquals(3000, savedProduct.getPrice());
-//        assertEquals("상품 추가 테스트", savedProduct.getDescription());
-//
-//        log.info(savedProduct);
-//    }
 
     @Test
-//    @org.junit.jupiter.api.Order(2)
+    @org.junit.jupiter.api.Order(1)
+    public void testInsert() {
+        //GIVEN
+        Product product = Product.builder().productName("상품1").category(Category.COFFEE_BEAN_PACKAGE).price(3000).description("상품 추가 테스트").build();
+
+        //WHEN
+        Product savedProduct = productRepository.save(product);
+
+        //THEN
+        assertNotNull(savedProduct);
+        assertEquals(1, savedProduct.getProductId());
+        assertEquals("상품1", savedProduct.getProductName());
+        assertEquals(Category.COFFEE_BEAN_PACKAGE, savedProduct.getCategory());
+        assertEquals(3000, savedProduct.getPrice());
+        assertEquals("상품 추가 테스트", savedProduct.getDescription());
+
+        log.info(savedProduct);
+    }
+
+    @Test
+    @org.junit.jupiter.api.Order(2)
     public void testInsertTen() {
         IntStream.rangeClosed(1, 10).forEach(i -> {
             //GIVEN
