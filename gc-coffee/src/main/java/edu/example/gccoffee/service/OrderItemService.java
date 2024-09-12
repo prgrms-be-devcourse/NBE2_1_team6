@@ -28,19 +28,26 @@ public class OrderItemService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
 
-    public List<OrderItem> modify(List<OrderItemDTO> orderItemDTOs,Long orderId){
+    public List<OrderItem> modify(List<OrderItemDTO> orderItemDTOs, Long orderId) {
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("Order not found"));
-        List<OrderItem> originOrder = order.getOrderItem();
-        for (OrderItem orderItem : originOrder) {
-            orderItemRepository.delete(orderItem);
-        }
-        List<OrderItem> itemList = new ArrayList<>();
+
+        // 기존의 주문 아이템을 업데이트
         for (OrderItemDTO orderItemDTO : orderItemDTOs) {
-            orderItemDTO.setOrderId(orderId);
-            orderItemRepository.save(toEntity(orderItemDTO));
-            itemList.add(toEntity(orderItemDTO));
+            // 주문 아이템 ID로 기존 아이템을 찾습니다.
+            OrderItem orderItem = orderItemRepository.findById(orderItemDTO.getOrderItemId())
+                    .orElseThrow(() -> new RuntimeException("OrderItem not found"));
+
+            // 아이템 정보를 업데이트합니다.
+            orderItem.setQuantity(orderItemDTO.getQuantity());
+            orderItem.setPrice(orderItemDTO.getPrice());
+            orderItem.setCategory(Category.valueOf(orderItemDTO.getCategory()));
+
+            // 변경된 아이템을 저장합니다.
+            orderItemRepository.save(orderItem);
         }
-        return itemList;
+
+        // 업데이트된 아이템 목록을 반환합니다.
+        return orderItemRepository.findAllByOrderId(orderId);
     }
 
     public List<OrderItemDTO> readAll(Long orderId) {
