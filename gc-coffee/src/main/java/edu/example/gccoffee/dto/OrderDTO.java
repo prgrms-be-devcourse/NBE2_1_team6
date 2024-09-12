@@ -29,11 +29,11 @@ public class OrderDTO {
     @Schema(description = "주소", example = "서울시 강남구")
     private String address;
 
+
     @NotNull(message = "Post code must not be null")
     @Schema(description = "우편번호", example = "12351")
     private int postCode;
 
-    @NotEmpty
     @Schema(description = "주문상품 목록 정보")
     private List<OrderItemDTO> orderItem;
 
