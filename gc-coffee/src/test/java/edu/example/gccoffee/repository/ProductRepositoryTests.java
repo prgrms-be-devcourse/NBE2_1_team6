@@ -34,6 +34,7 @@ public class ProductRepositoryTests {
     private ProductRepository productRepository;
 
     @Test
+    @DisplayName("제품 삽입 테스트")
     @org.junit.jupiter.api.Order(1)
     public void testInsert() {
         //GIVEN
@@ -54,6 +55,7 @@ public class ProductRepositoryTests {
     }
 
     @Test
+    @DisplayName("제품 삽입 테스트 (10개)")
     @org.junit.jupiter.api.Order(2)
     public void testInsertTen() {
         IntStream.rangeClosed(1, 10).forEach(i -> {
@@ -72,10 +74,10 @@ public class ProductRepositoryTests {
     }
 
     @Test
+    @DisplayName("제품 수정 테스트")
     @Transactional
     @Commit
     @org.junit.jupiter.api.Order(3)
-    @DisplayName("업데이트 테스트")
     public void testUpdate() {
         Long productId = 2L;
 
@@ -93,6 +95,7 @@ public class ProductRepositoryTests {
     }
 
     @Test
+    @DisplayName("제품 삭제 테스트")
     @org.junit.jupiter.api.Order(4)
     public void testDelete() {
         //GIVEN
@@ -107,8 +110,8 @@ public class ProductRepositoryTests {
     }
 
     @Test
+    @DisplayName("제품 단일조회 테스트")
     @org.junit.jupiter.api.Order(5)
-    @DisplayName("읽어오기 테스트")
     public void testRead() {
         Long productId = 2L;
 
@@ -124,6 +127,7 @@ public class ProductRepositoryTests {
     }
 
     @Test
+    @DisplayName("제품 전체조회 테스트")
     @org.junit.jupiter.api.Order(6)
     public void testReadAll() {
         //GIVEN

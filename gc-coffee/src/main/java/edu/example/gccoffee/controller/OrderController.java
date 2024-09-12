@@ -22,7 +22,7 @@ public class OrderController {
     private final OrderService orderService;
     private final OrderItemService orderItemService;
 
-    @GetMapping()
+    @GetMapping
     public String ordersPage(Model model) {
         List<OrderDTO> orderDTOs = orderService.readAll();
         model.addAttribute("orders", orderDTOs);
