@@ -16,6 +16,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.stream.IntStream;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
@@ -133,4 +134,5 @@ public class OrderItemRepositoryTests {
 
         assertEquals(10, orderRepository.findAll().size());
     }
+
 }
